@@ -1,0 +1,45 @@
+{
+    "name": "opencode-interval",
+    "version": "0.1.0",
+    "type": "module",
+    "description": "Fixed-interval prompt loop for OpenCode — fires a continuation every N minutes after idle, runs until stopped",
+    "main": "./src/index.ts",
+    "keywords": [
+        "opencode",
+        "opencode-plugin",
+        "plugin",
+        "interval",
+        "loop",
+        "periodic",
+        "schedule"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/lirrensi/opencode-interval.git"
+    },
+    "license": "MIT",
+    "files": [
+        "src",
+        "README.md",
+        "LICENSE"
+    ],
+    "exports": {
+        ".": "./src/index.ts"
+    },
+    "scripts": {
+        "typecheck": "tsc --noEmit",
+        "test": "vitest run",
+        "test:watch": "vitest",
+        "sync": "node scripts/sync-plugins.mjs",
+        "deploy": "node scripts/deploy.mjs"
+    },
+    "dependencies": {
+        "@opencode-ai/plugin": "^1.15.11",
+        "@opencode-ai/sdk": "^1.15.11"
+    },
+    "devDependencies": {
+        "@types/node": "^25.9.1",
+        "typescript": "^6.0.3",
+        "vitest": "^4.1.7"
+    }
+}
