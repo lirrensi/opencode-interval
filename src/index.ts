@@ -139,25 +139,33 @@ export const IntervalPlugin: Plugin = async ({ client }: any) => {
         }
       }
     },
-    "command.execute.before": async (input: any) => {
+    "command.execute.before": async (input: any, output: any) => {
       if (input.command !== "interval") return
-      const DONE = "__IVL__"
       const op = parseCommand((input.arguments ?? "").trim())
       if (op.kind === "status") {
-        if (!loop?.active) { toast(NO_INTERVAL, "error"); throw new Error(DONE) }
-        toast(fmtSummary(loop)); throw new Error(DONE)
+        if (!loop?.active) { toast(NO_INTERVAL, "error") }
+        else { toast(fmtSummary(loop)) }
+      } else if (op.kind === "stop") {
+        if (!loop?.active) { toast(MSG_NO_INTERVAL_TO_STOP, "error") }
+        else { const e = fmt(Date.now() - loop.startTime); doStop(); toast(`${MSG_STOPPED} Elapsed: ${e}`) }
+      } else {
+        // start
+        if (loop?.active) { toast(`Already running. /interval stop first.`, "error") }
+        else {
+          loop = { startTime: Date.now(), intervalMs: op.minutes * 60_000, message: op.message, active: true, dwellTimer: null }
+          refreshHb()
+          toast(`Interval armed — fires every ${fmt(op.minutes * 60_000)} after idle`, "info", 5000)
+          startDwell()
+        }
       }
-      if (op.kind === "stop") {
-        if (!loop?.active) { toast(MSG_NO_INTERVAL_TO_STOP, "error"); throw new Error(DONE) }
-        const e = fmt(Date.now() - loop.startTime); doStop()
-        toast(`${MSG_STOPPED} Elapsed: ${e}`); throw new Error(DONE)
+
+      // Silently abort the original /interval command by clearing its output parts.
+      // Throwing is NOT supported by the opencode plugin contract — recent opencode
+      // versions (June 2026 refactor) propagate unhandled errors to the chat UI as a
+      // visible error block, which is the "spam" this guard avoids.
+      if (output && Array.isArray(output.parts)) {
+        output.parts.length = 0
       }
-      if (loop?.active) { toast(`Already running. /interval stop first.`, "error"); throw new Error(DONE) }
-      loop = { startTime: Date.now(), intervalMs: op.minutes * 60_000, message: op.message, active: true, dwellTimer: null }
-      refreshHb()
-      toast(`Interval armed — fires every ${fmt(op.minutes * 60_000)} after idle`, "info", 5000)
-      startDwell()
-      throw new Error(DONE)
     },
   }
 }
