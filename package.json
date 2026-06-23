@@ -1,6 +1,6 @@
 {
     "name": "opencode-interval",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "type": "module",
     "description": "Fixed-interval prompt loop for OpenCode — fires a continuation every N minutes after idle, runs until stopped",
     "main": "./src/index.ts",
