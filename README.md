@@ -1,5 +1,10 @@
 # opencode-interval
 
+> **⛔ DISCONTINUED — OUTDATED.**
+> This plugin was written for an older version of OpenCode, before the v2 rewrite. The plugin API it targets was removed, so it no longer loads, and it is outdated.
+> It is **superseded by built-in functionality**: native **automations** (OpenCode v2.4, on by default) — an `every` trigger with a prompt action does exactly this, including skipping ticks while the session is busy.
+> Kept for history only. Do not install.
+
 [![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![node](https://img.shields.io/badge/node-%3E%3D22-339933?logo=node.js)](package.json)
 [![pnpm](https://img.shields.io/badge/pnpm-F69220?logo=pnpm&logoColor=white)](package.json)
